@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         BindingResult result = e.getBindingResult();
         StringBuffer sb = new StringBuffer();
 
-        result.getFieldErrors().stream()
+        result.getFieldErrors()
                 .forEach(
                         fieldError -> {
                             sb.append("\"")

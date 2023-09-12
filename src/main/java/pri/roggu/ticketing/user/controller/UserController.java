@@ -26,4 +26,10 @@ public class UserController {
         return userService.signup(userDto);
     }
 
+    @PostMapping(value = "/signin")
+    public ResponseDto<String> signin(@RequestBody final UserDto userDto) {
+        return userService.signin(userDto);
+    }
+
+
 }

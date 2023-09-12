@@ -22,3 +22,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+jwt:
+  secret: 27e66bf3f7cbc170eeb4d39cb6cb1f6e77006385029b708545666af6c9282bc22ac55b79c1f8193401c58cbe03bacb8e2019dfc42d16a4fb8f3e9c140c1c4e2b
+  access-token-validity-in-seconds: 600000
+  refresh-token-validity-in-seconds: 300000
