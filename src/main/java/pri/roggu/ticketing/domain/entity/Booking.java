@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "tBooking")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Booking {
+public class Booking extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

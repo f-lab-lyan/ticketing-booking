@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tTicket")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Ticket {
+public class Ticket extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

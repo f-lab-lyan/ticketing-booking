@@ -33,12 +33,12 @@ public class JwtTokenProvider {
     }
 
     /**
-     * 토큰 발급
-     * @param accountId
+     * FUNCTION :: 토큰발급
+     * @param userId
      * @return
      */
-    public JwtTokenDto generateToken(String accountId){
-        Claims claims = Jwts.claims().setSubject(accountId);
+    public JwtTokenDto generateToken(String userId){
+        Claims claims = Jwts.claims().setSubject(userId);
         //claims.put("role", accountAuthGubun);
         long now = new Date().getTime();
 
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
                 .compact();
 
         return JwtTokenDto.builder()
-                .accountId(accountId)
+                .userId(userId)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(refreshTokenValidityInSeconds)
@@ -64,11 +64,11 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getAccountId(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getAccountId(String token){
+    public String getUserId(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -90,7 +90,7 @@ public class JwtTokenProvider {
         // accessToken 남은 유효시간
         Date expiration = Jwts.parser().setSigningKey(secret).parseClaimsJws(accessToken).getBody().getExpiration();
         // 현재 시간
-        Long now = new Date().getTime();
+        long now = new Date().getTime();
         return (expiration.getTime() - now);
     }
 

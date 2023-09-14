@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import pri.roggu.ticketing.domain.dto.UserDto;
 import pri.roggu.ticketing.util.PasswordUtil;
 
@@ -17,7 +16,7 @@ import java.util.Collection;
 @Table(name = "tUser")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class User implements UserDetails {
+public class User extends Base implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

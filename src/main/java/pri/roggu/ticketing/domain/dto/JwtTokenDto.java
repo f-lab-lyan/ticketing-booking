@@ -7,14 +7,14 @@ import lombok.Setter;
 @Getter @Setter
 public class JwtTokenDto {
 
-    private String accountId;
+    private String userId;
     private String accessToken;
     private String refreshToken;
     private long refreshTokenExpirationTime;
 
     @Builder
-    public JwtTokenDto(String accountId, String accessToken, String refreshToken, long refreshTokenExpirationTime) {
-        this.accountId = accountId;
+    public JwtTokenDto(String userId, String accessToken, String refreshToken, long refreshTokenExpirationTime) {
+        this.userId = userId;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pri.roggu.ticketing.domain.dto.JwtTokenDto;
 import pri.roggu.ticketing.domain.dto.ResponseDto;
 import pri.roggu.ticketing.domain.dto.UserDto;
 import pri.roggu.ticketing.user.service.UserService;
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/signin")
-    public ResponseDto<String> signin(@RequestBody final UserDto userDto) {
+    public ResponseDto<JwtTokenDto> signin(@RequestBody final UserDto userDto) {
         return userService.signin(userDto);
     }
 

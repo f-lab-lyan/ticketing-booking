@@ -2,24 +2,26 @@ package pri.roggu.ticketing.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pri.roggu.ticketing.domain.dto.JwtTokenDto;
 import pri.roggu.ticketing.domain.dto.ResponseDto;
 import pri.roggu.ticketing.domain.dto.UserDto;
 import pri.roggu.ticketing.domain.entity.User;
 import pri.roggu.ticketing.exception.exceptions.UserDuplicateException;
+import pri.roggu.ticketing.exception.exceptions.UserLoginException;
+import pri.roggu.ticketing.user.component.JwtTokenProvider;
+import pri.roggu.ticketing.user.enums.LoginResult;
 import pri.roggu.ticketing.user.repository.UserRepository;
 import pri.roggu.ticketing.util.PasswordUtil;
 
-import java.util.NoSuchElementException;
-
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+@Transactional
+public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * FUNCTION :: 회원가입
@@ -42,21 +44,26 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + userId + " Not Exist."));
-    }
-
-    public ResponseDto<String> signin(final UserDto userDto) {
+    /**
+     * FUNCTION :: 로그인
+     * @param userDto
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public ResponseDto<JwtTokenDto> signin(final UserDto userDto) {
 
         User user = userRepository.findByUserId(userDto.getUserId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new UserLoginException(userDto.getUserId()));
 
         if(!PasswordUtil.matchs(userDto.getUserPwd(), user.getUserPwd())) {
-            // throw new LoginException();
+             throw new UserLoginException(userDto.getUserId());
         }
-        return null;
-    }
 
+        JwtTokenDto jwtToken = jwtTokenProvider.generateToken(userDto.getUserId());
+
+        return ResponseDto.<JwtTokenDto>builder()
+                          .httpStatus(HttpStatus.OK)
+                          .data(jwtToken)
+                          .build();
+    }
 }

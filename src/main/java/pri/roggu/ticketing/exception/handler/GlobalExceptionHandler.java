@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pri.roggu.ticketing.exception.exceptions.UserDuplicateException;
+import pri.roggu.ticketing.exception.exceptions.UserLoginException;
 
 @ControllerAdvice
 @Slf4j
@@ -19,7 +20,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> MethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<String> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         StringBuffer sb = new StringBuffer();
 
@@ -44,8 +45,19 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(UserDuplicateException.class)
-    public ResponseEntity<String> UserDuplicateException(UserDuplicateException e) {
+    public ResponseEntity<String> userDuplicateException(UserDuplicateException e) {
         log.info("User ["+ e.getUserId() +"] Duplicated Id");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    /**
+     * FUNCTION :: 사용자 로그인 실패
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(UserLoginException.class)
+    public ResponseEntity<String> userLoginException(UserLoginException e) {
+        log.info("User ["+ e.getUserId() +"] Login Fail");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
