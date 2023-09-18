@@ -2,16 +2,6 @@ server:
   port: 80
 
 spring:
-  jpa:
-    open-in-view: false
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
-        show_sql: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:~/test;DB_CLOSE_ON_EXIT=FALSE
@@ -23,7 +13,18 @@ spring:
       enabled: true
       path: /h2-console
 
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+
 jwt:
   secret: 27e66bf3f7cbc170eeb4d39cb6cb1f6e77006385029b708545666af6c9282bc22ac55b79c1f8193401c58cbe03bacb8e2019dfc42d16a4fb8f3e9c140c1c4e2b
-  access-token-validity-in-seconds: 600000
-  refresh-token-validity-in-seconds: 300000
+  access-token-validity-in-seconds: 60000
+  refresh-token-validity-in-seconds: 6000000

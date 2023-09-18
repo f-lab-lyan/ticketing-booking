@@ -11,7 +11,6 @@ import pri.roggu.ticketing.domain.entity.User;
 import pri.roggu.ticketing.exception.exceptions.UserDuplicateException;
 import pri.roggu.ticketing.exception.exceptions.UserLoginException;
 import pri.roggu.ticketing.user.component.JwtTokenProvider;
-import pri.roggu.ticketing.user.enums.LoginResult;
 import pri.roggu.ticketing.user.repository.UserRepository;
 import pri.roggu.ticketing.util.PasswordUtil;
 
